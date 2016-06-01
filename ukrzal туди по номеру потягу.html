@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://booking.uz.gov.ua/" />
+<title>Укрзвлзіниця</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Укрзвлзіниця</td></tr>
+</thead><tbody>
+<tr>
+	<td>label</td>
+	<td>start</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>100000</td>
+	<td></td>
+</tr>
+<!--КИЕВ-ТЕРНОПОЛЬ-->
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=station_from</td>
+	<td>Київ</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>//div[@title='Київ']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>name=station_till</td>
+	<td>Терноп</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDown</td>
+	<td>//div[@title='Тернопіль']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<!--11.06.15-->
+<tr>
+	<td>click</td>
+	<td>id=date_dep</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=10</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=search</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//td[@class='place']/div[@title=&quot;Купе&quot;]/../..//td[@class='stations'][contains(text(),'Київ')]</td>
+	<td>kype_luboe</td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>2000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//table[@id='ts_res_tbl']//div[@title=&quot;Плацкарт&quot;]/../..//a[contains(text(),'049')]</td>
+	<td>plackart049</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//table[@id='ts_res_tbl']//div[@title=&quot;Плацкарт&quot;]/../..//a[contains(text(),'081')]</td>
+	<td>plackart081</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//table[@id='ts_res_tbl']//div[@title=&quot;Плацкарт&quot;]/../..//a[contains(text(),'143')]</td>
+	<td>plackart143</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${plackart049}|${plackart081}|${plackart143}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${plackart049} == true</td>
+	<td>massege</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${plackart081} == true</td>
+	<td>massege</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${plackart143} == true</td>
+	<td>massege</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//table[@id='ts_res_tbl']//div[@title=&quot;Купе&quot;]/../..//a[contains(text(),'049')]</td>
+	<td>kype049</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//table[@id='ts_res_tbl']//div[@title=&quot;Купе&quot;]/../..//a[contains(text(),'081')]</td>
+	<td>kype081</td>
+</tr>
+<tr>
+	<td>storeElementPresent</td>
+	<td>//table[@id='ts_res_tbl']//div[@title=&quot;Купе&quot;]/../..//a[contains(text(),'143')]</td>
+	<td>kype143</td>
+</tr>
+<tr>
+	<td>echo</td>
+	<td>${kype049}|${kype081}|${kype143}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${kype049} == true</td>
+	<td>massege</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${kype081} == true</td>
+	<td>massege</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>${kype143} == true</td>
+	<td>massege</td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>start</td>
+	<td></td>
+</tr>
+<!--FACEBOOK-->
+<tr>
+	<td>label</td>
+	<td>massege</td>
+	<td></td>
+</tr>
+<tr>
+	<td>captureEntirePageScreenshot</td>
+	<td>C:\Users\Masha\Desktop\scrin.png</td>
+	<td></td>
+</tr>
+<tr>
+	<td>captureEntirePageScreenshot</td>
+	<td>C:\Users\Masha\Dropbox\scrin.png</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>https://www.facebook.com/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=a._5afe.sortableItem &gt; div.linkWrap.noCount &gt; span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//button[@value='1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=input.inputtext.textInput</td>
+	<td>мasha proshyna${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=message_body</td>
+	<td>ЕСТЬ БИЛЕТИКИ!</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Отправить']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>gotolabel</td>
+	<td>start</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

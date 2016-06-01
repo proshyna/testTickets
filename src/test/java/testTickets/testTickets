@@ -1,0 +1,12 @@
+package testTickets;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+private WebDriver driver = new FirefoxDriver();
+public class testStartWebDriver(){
+        driver.navigate().to("http://booking.uz.gov.ua/");
+        driver.findElement(By.name("station_from")).sendKeys("Київ");
+    }
+}
