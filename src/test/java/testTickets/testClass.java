@@ -27,7 +27,6 @@ public class testClass {
         getCurrentPeriodTrains();
         requiredTrains();
         desiredTypesOfCarraige();
-        //trainsWithDesiredCarriageType();
         comparingRequiredTrainsANDDesiredCarriageTypeTrains();
 
     }
@@ -109,6 +108,8 @@ public class testClass {
 
     }
 
+
+
     public static List<String> desiredTypesOfCarraige() {
         List<String> trainsDesiredTypes = new ArrayList<String>();
         trainsDesiredTypes.add("Купе");
@@ -151,9 +152,7 @@ public class testClass {
                     requiredTrainsWithDesiredCarriageType.add(requiredTrainsVar.get(i));
                     System.out.println(requiredTrainsWithDesiredCarriageType.get(i));
                 }
-
             }
-
         }
         return requiredTrainsWithDesiredCarriageType;
     }
