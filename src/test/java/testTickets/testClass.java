@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static java.awt.SystemColor.text;
 import static org.junit.Assert.assertEquals;
@@ -25,20 +26,36 @@ public class testClass {
         filters();
         getCurrentPeriodTrains();
         requiredTrains();
-       checkCarriageType();
+        desiredTypesOfCarraige();
+        //trainsWithDesiredCarriageType();
+        comparingRequiredTrainsANDDesiredCarriageTypeTrains();
 
     }
-
 
     public static void filters() {  // Searching for trains with defined filters
 
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
         driver.navigate().to("http://booking.uz.gov.ua/");
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@id=\"langs\"]//li[1]//b")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong :(");
+        }
         driver.findElement(By.xpath("//ul[@id=\"langs\"]//li[1]//b")).click();
         driver.findElement(By.name("station_from")).sendKeys("Київ");
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Київ']")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong :(");
+        }
         driver.findElement(By.name("station_from")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_from")).sendKeys(Keys.ENTER);
         driver.findElement(By.name("station_till")).sendKeys("Тернопіль");
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Тернопіль']")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong :(");
+        }
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
@@ -49,7 +66,6 @@ public class testClass {
             System.out.println("Somthing wrong :(");
         }
         driver.findElement(By.name("search")).click();
-
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a")));
         } catch (Exception e) {
@@ -88,110 +104,63 @@ public class testClass {
                     listOfPossibleTrains.add(requeredTrains.get(i));
                 }
             }
-        }return  listOfPossibleTrains;
+        }
+        return listOfPossibleTrains;
 
     }
 
-
-    public static List<String> checkCarriageType() {
-        List<String> checkType = requiredTrains();
-
-
-        List<String> trainsMatchingBeforeTypeChecking = new ArrayList<String>();
-        for (int i = 0; i < checkType.size(); i++) {
-
-            System.out.println(checkType.get(i));
-
-            List<WebElement> carriageTypeKype = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a[contains(text(),'" + trainsMatchingBeforeTypeChecking.get(i) + "')]/../..//td[@class='place']//i"));
+    public static List<String> desiredTypesOfCarraige() {
+        List<String> trainsDesiredTypes = new ArrayList<String>();
+        trainsDesiredTypes.add("Купе");
+        trainsDesiredTypes.add("Плацкарт");
+        for (int t = 0; t < trainsDesiredTypes.size(); t++) {
+            //  System.out.println(trainsDesiredTypes.get(t1));
+        }
+        return trainsDesiredTypes;
+    }
 
 
+    public static List<String> trainsWithDesiredCarriageType() {
+        List<String> trainsDesiredTypes = desiredTypesOfCarraige();
 
-            // String type = driver.findElements(By.xpath("//td[@class=\"place\"]/div[contains(text(),\"Купе\")]"));
+        List<String> trainsCurrentTypes = new ArrayList<String>();
 
+        for (int i = 0; i < trainsDesiredTypes.size(); i++) {
+            List<WebElement> checkingCarraigeTypes = driver.findElements(By.xpath("//div[@title='" + trainsDesiredTypes.get(i) + "']/../..//td[@class='num']/a"));
 
-            //List<WebElement> plackart = driver.findElements(By.xpath("//td[@class=\"place\"]/div"));
+            trainsCurrentTypes.add(checkingCarraigeTypes.get(i).getText());
+            // System.out.println(trainsCurrentTypes.get(i));
+        }
+        return trainsCurrentTypes;
+    }
 
+    public static List<String> comparingRequiredTrainsANDDesiredCarriageTypeTrains() {
+        List<String> requiredTrainsVar = requiredTrains();
+        List<String> desiredCarriageTypeTrainsVar = trainsWithDesiredCarriageType();
 
-            //    List<String> type = new ArrayList<String>();
-            //   List<WebElement> carriageType = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a[contains(text(),'" + listOfPossibleTrains.get(i) + "')]/../..//td[@class='place']//i"));
+        List<String> requiredTrainsWithDesiredCarriageType = new ArrayList<String>();
 
+        for (int i = 0; i < requiredTrainsVar.size(); i++) {
+            //  System.out.println(requiredTrains.get(i)+"Текст-----requiredTrains");
 
-            //    type.add(carriageType.get(i).getText());
-            //  System.out.println(carriageType.get(i).getText());
+            for (int j = 0; j < desiredCarriageTypeTrainsVar.size(); j++) {
+                //  System.out.println(desiredCarriageTypeTrains.get(j) + "Текст-----CarriageType");
 
+                if (requiredTrainsVar.get(i).equals(desiredCarriageTypeTrainsVar.get(j))) {
 
-        /*
-            if(train)
-            String value = listOfPossibleTrains.get(i);
-            System.out.println(value);
+                    requiredTrainsWithDesiredCarriageType.add(requiredTrainsVar.get(i));
+                    System.out.println(requiredTrainsWithDesiredCarriageType.get(i));
+                }
 
-            try {
-                assertEquals("Log in and get to work", driver.(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a[contains(text(),'" + listOfPossibleTrains.get(i) + "';)]")).getText();
-            } catch (Exception e) {
-                throw new MyFirstTest.TestError("FAIL!'Log in and get to work' IS NOT FUND"); // Вызов ошибки о невыполненом условии(для уведомления по email)
-                //verificationErrors.append("FAIL!'Log in and get to work' IS NOT FUND");
-            }*/
+            }
 
         }
-        return checkType;
+        return requiredTrainsWithDesiredCarriageType;
     }
 }
 
 
-
-
-
-
-
-       // for(int i=0; i<trains.length; i++){
-         //   System.out.println(trains[i]);
-      //  }
-
-
-     /*   Boolean plackart049 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
-        if (plackart049) {
-            String places_sring = driver.findElement(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).getText();
-            int placesAmount = Integer.parseInt(places_sring);
-            if (placesAmount > 1) {
-                facebook();
-            } else { System.out.println("nice");
-            }
-        }
-
-
-        Boolean plackart081 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
-        if (plackart081) {
-            facebook();
-        } else {
-        }
-
-        Boolean plackart143 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
-        if (plackart143) {
-            facebook();
-        } else {
-        }
-
-        Boolean kype049 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
-        if (kype049) {
-            facebook();
-        } else {
-        }
-
-        Boolean kype081 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
-        if (kype081) {
-            facebook();
-        } else {
-        }
-
-        Boolean kype143 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
-        if (kype143) {
-            facebook();
-        } else {
-        }
-    }
-
-
-
+/*
     public static void facebook() {
         WebDriver driver = new FirefoxDriver();
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
