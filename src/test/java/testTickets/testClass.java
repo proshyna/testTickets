@@ -2,24 +2,35 @@ package testTickets;
 
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.awt.SystemColor.text;
+import static org.junit.Assert.assertEquals;
 
 
 @Test
 public class testClass {
-    private WebDriver driver = new FirefoxDriver();
+
+    public static WebDriver driver = new FirefoxDriver();
 
     public static void main(String[] args) {
 
-        WebDriver driver = new FirefoxDriver();
+        filters();
+        getCurrentPeriodTrains();
+        requiredTrains();
+
+    }
+
+
+    public static void filters() {  // Searching for trains with defined filters
+
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
         driver.navigate().to("http://booking.uz.gov.ua/");
         driver.findElement(By.xpath("//ul[@id=\"langs\"]//li[1]//b")).click();
@@ -30,33 +41,69 @@ public class testClass {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.linkText("10")).click();
+        driver.findElement(By.linkText("14")).click();
         try {
-            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.name("search")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.name("search")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
         driver.findElement(By.name("search")).click();
-        trainSearch();
 
-
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong :(");
+        }
     }
 
-    public static void trainSearch() {
-        WebDriver driver = new FirefoxDriver();
 
-        String trains[] = new String [6];
-        trains[0]= "049 К";
-        trains[1]= "081 К";
-        trains[2]= "143 К";
+    private static List<String> getCurrentPeriodTrains() { // Getting WebElements and writing them to ArrayList
+        List<String> currentTrains = new ArrayList<String>();
+        List<WebElement> myElements = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a"));
 
-
-        for(int i=0; i<trains.length; i++){
-            System.out.println(trains[i]);
+        for (int i = 0; i < myElements.size(); i++) {
+            currentTrains.add(myElements.get(i).getText());
+            // System.out.println(myElements.get(i).getText());
         }
+        return currentTrains;
+    }
 
 
-        Boolean plackart049 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
+    public static List<String> requiredTrains() { // Sist of possible trains
+        List<String> arrayOfWebElements = getCurrentPeriodTrains();
+
+        //ArrayList creation
+        ArrayList<String> requeredTrains = new ArrayList<String>();
+        requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
+        requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
+        requeredTrains.add("143 К");
+
+        List<String> listOfPossibleTrains = new ArrayList<String>();
+        for (int i = 0; i < requeredTrains.size(); i++) {
+            for (int j = 0; j < arrayOfWebElements.size(); j++) {
+
+                if (requeredTrains.get(i).equals(arrayOfWebElements.get(j))) {
+                    System.out.println(requeredTrains.get(i));
+                    List<WebElement> plackart = driver.findElements(By.xpath("//div[@title=\"Плацкарт\"]"));
+                    List<WebElement> kype = driver.findElements(By.xpath("//div[@title=\"Купе\"]"));
+                                       // System.out.println(arrayOfWebElements.get(j));
+                }
+            }
+        }
+        return listOfPossibleTrains;
+    }
+}
+
+
+
+
+
+       // for(int i=0; i<trains.length; i++){
+         //   System.out.println(trains[i]);
+      //  }
+
+
+     /*   Boolean plackart049 = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).size() != 0;
         if (plackart049) {
             String places_sring = driver.findElement(By.xpath("//table[@id='ts_res_tbl']//div[@title=\"Плацкарт\"]/../..//a[contains(text(),'049')]")).getText();
             int placesAmount = Integer.parseInt(places_sring);
@@ -145,3 +192,4 @@ public class testClass {
 
 
 
+*/
