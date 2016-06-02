@@ -25,6 +25,7 @@ public class testClass {
         filters();
         getCurrentPeriodTrains();
         requiredTrains();
+       checkCarriageType();
 
     }
 
@@ -69,30 +70,74 @@ public class testClass {
     }
 
 
-    public static List<String> requiredTrains() { // Sist of possible trains
+    public static List<String> requiredTrains() { // List of possible trains
         List<String> arrayOfWebElements = getCurrentPeriodTrains();
-
         //ArrayList creation
-        ArrayList<String> requeredTrains = new ArrayList<String>();
+        List<String> requeredTrains = new ArrayList<String>();
         requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
         requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
         requeredTrains.add("143 К");
 
         List<String> listOfPossibleTrains = new ArrayList<String>();
         for (int i = 0; i < requeredTrains.size(); i++) {
+
             for (int j = 0; j < arrayOfWebElements.size(); j++) {
 
                 if (requeredTrains.get(i).equals(arrayOfWebElements.get(j))) {
-                    System.out.println(requeredTrains.get(i));
-                    List<WebElement> plackart = driver.findElements(By.xpath("//div[@title=\"Плацкарт\"]"));
-                    List<WebElement> kype = driver.findElements(By.xpath("//div[@title=\"Купе\"]"));
-                                       // System.out.println(arrayOfWebElements.get(j));
+                    //System.out.println(requeredTrains.get(i));
+                    listOfPossibleTrains.add(requeredTrains.get(i));
                 }
             }
+        }return  listOfPossibleTrains;
+
+    }
+
+
+    public static List<String> checkCarriageType() {
+        List<String> checkType = requiredTrains();
+
+
+        List<String> trainsMatchingBeforeTypeChecking = new ArrayList<String>();
+        for (int i = 0; i < checkType.size(); i++) {
+
+            System.out.println(checkType.get(i));
+
+            List<WebElement> carriageTypeKype = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a[contains(text(),'" + trainsMatchingBeforeTypeChecking.get(i) + "')]/../..//td[@class='place']//i"));
+
+
+
+            // String type = driver.findElements(By.xpath("//td[@class=\"place\"]/div[contains(text(),\"Купе\")]"));
+
+
+            //List<WebElement> plackart = driver.findElements(By.xpath("//td[@class=\"place\"]/div"));
+
+
+            //    List<String> type = new ArrayList<String>();
+            //   List<WebElement> carriageType = driver.findElements(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a[contains(text(),'" + listOfPossibleTrains.get(i) + "')]/../..//td[@class='place']//i"));
+
+
+            //    type.add(carriageType.get(i).getText());
+            //  System.out.println(carriageType.get(i).getText());
+
+
+        /*
+            if(train)
+            String value = listOfPossibleTrains.get(i);
+            System.out.println(value);
+
+            try {
+                assertEquals("Log in and get to work", driver.(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a[contains(text(),'" + listOfPossibleTrains.get(i) + "';)]")).getText();
+            } catch (Exception e) {
+                throw new MyFirstTest.TestError("FAIL!'Log in and get to work' IS NOT FUND"); // Вызов ошибки о невыполненом условии(для уведомления по email)
+                //verificationErrors.append("FAIL!'Log in and get to work' IS NOT FUND");
+            }*/
+
         }
-        return listOfPossibleTrains;
+        return checkType;
     }
 }
+
+
 
 
 
