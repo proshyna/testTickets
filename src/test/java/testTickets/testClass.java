@@ -36,7 +36,7 @@ public class testClass {
         searchingForRequiredTrains();
         preparingDesiredTypesOfCarraige();
         comparingRequiredTrainsANDDesiredCarriageTypeTrains();
-       checkingPlacesAmount();
+        checkingPlacesAmount();
 
     }
 
@@ -168,7 +168,7 @@ public class testClass {
     }
 
 
-    private static void checkingPlacesAmount()  {
+    private static void checkingPlacesAmount() {
         List<String> suitableTrains = comparingRequiredTrainsANDDesiredCarriageTypeTrains();
 
         for (int i = 0; i < suitableTrains.size(); i++) {
@@ -178,8 +178,8 @@ public class testClass {
             if (plackartInt >= 2 || kypeInt >= 2) {
                 System.out.println("Plackart = " + plackartInt);
                 System.out.println("Kype = " + kypeInt);
-                screenshoting ();
-                facebook();
+                screenshoting();
+                sendNotificationOnFacebook();
             } else {
                 System.out.println("Amount of places not enough");
             }
@@ -188,7 +188,7 @@ public class testClass {
     }
 
 
-    private static void facebook() {
+    private static void sendNotificationOnFacebook() {
         WebDriver driver = new FirefoxDriver();
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
         driver.navigate().to("https://www.facebook.com/");
@@ -226,11 +226,13 @@ public class testClass {
         driver.quit();
     }
 
-    private static void screenshoting () { //Capture entire page screenshot and then store it to destination drive
-        try{ File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(screenshot, new File("C:\\Users\\Masha\\Dropbox\\screenshotUKRZALIZNUCYA.jpg"));
-            System.out.print("Screenshot is captured and stored in your C:\\Users\\Masha\\Dropbox\\");}
-        catch (Exception e) {
+
+    private static void screenshoting() { //Capture entire page screenshot and then store it to destination drive
+        try {
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(screenshot, new File("C:\\Users\\Masha\\Dropbox\\screenshotUKRZALIZNUCYA.jpg"));
+            System.out.print("Screenshot is captured and stored in your C:\\Users\\Masha\\Dropbox\\");
+        } catch (Exception e) {
             System.out.print("Somthing wrong5 :(");
         }
     }
