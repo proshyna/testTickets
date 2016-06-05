@@ -13,9 +13,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static java.awt.SystemColor.text;
@@ -35,7 +33,7 @@ public class testClass {
         getCurrentPeriodTrains();
         searchingForRequiredTrains();
         preparingDesiredTypesOfCarraige();
-        comparingRequiredTrainsANDDesiredCarriageTypeTrains();
+        //comparingRequiredTrainsANDDesiredCarriageTypeTrains();
         checkingPlacesAmount();
 
     }
@@ -68,7 +66,7 @@ public class testClass {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.linkText("14")).click();
+        driver.findElement(By.linkText("10")).click();
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.name("search")));
         } catch (Exception e) {
@@ -130,58 +128,80 @@ public class testClass {
     }
 
 
-    private static List<String> searchForTrainsWithDesiredCarriageType() {
+    private static Map<String, List<String>> searchForTrainsWithDesiredCarriageType() {
         List<String> trainsWithDesiredTypes = preparingDesiredTypesOfCarraige();
+        List<String> requiredTrainsVar = searchingForRequiredTrains();
 
-        List<String> trainsCurrentTypes = new ArrayList<String>();
+        Map<String, List<String>> trainsCurrentTypes = new HashMap<String, List<String>>();
 
-        for (int i = 0; i < trainsWithDesiredTypes.size(); i++) {
-            List<WebElement> checkingCarraigeTypes = driver.findElements(By.xpath("//div[@title='" + trainsWithDesiredTypes.get(i) + "']/../..//td[@class='num']/a"));
+        for (String desiredType : trainsWithDesiredTypes) { // all trains with desired carriage Types
+            List<WebElement> checkingCarraigeTypes = driver.findElements(By.xpath("//div[@title='"
+                    + desiredType + "']/../..//td[@class='num']/a"));
 
-            trainsCurrentTypes.add(checkingCarraigeTypes.get(i).getText());
+            for (WebElement trainWithAcceptableType : checkingCarraigeTypes) {//comparing required trains and "all trains with desired carriage Types"
+                if(!requiredTrainsVar.contains(trainWithAcceptableType.getText())){
+                    continue;
+                }
+
+                if (trainsCurrentTypes.containsKey(trainWithAcceptableType.getText())) {
+                    List<String> values = trainsCurrentTypes.get(trainWithAcceptableType.getText());
+                    values.add(desiredType);
+                } else {
+                    List<String> desiredTypes = new ArrayList<String>();
+                    desiredTypes.add(desiredType);
+                    trainsCurrentTypes.put(trainWithAcceptableType.getText(), desiredTypes);
+                }
+            }
             // System.out.println(trainsCurrentTypes.get(i));
         }
         return trainsCurrentTypes;
     }
 
 
-    private static List<String> comparingRequiredTrainsANDDesiredCarriageTypeTrains() {
-        List<String> requiredTrainsVar = searchingForRequiredTrains();
-        List<String> desiredCarriageTypeTrainsVar = searchForTrainsWithDesiredCarriageType();
-
-        List<String> requiredTrainsWithDesiredCarriageType = new ArrayList<String>();
-
-        for (int i = 0; i < requiredTrainsVar.size(); i++) {
-            //  System.out.println(requiredTrains.get(i)+"Текст-----requiredTrains");
-
-            for (int j = 0; j < desiredCarriageTypeTrainsVar.size(); j++) {
-                //  System.out.println(desiredCarriageTypeTrains.get(j) + "Текст-----CarriageType");
-
-                if (requiredTrainsVar.get(i).equals(desiredCarriageTypeTrainsVar.get(j))) {
-
-                    requiredTrainsWithDesiredCarriageType.add(requiredTrainsVar.get(i));
-                    // System.out.println(requiredTrainsWithDesiredCarriageType.get(i));
-                }
-            }
-        }
-        return requiredTrainsWithDesiredCarriageType;
-    }
+//    private static List<String> comparingRequiredTrainsANDDesiredCarriageTypeTrains() {
+//        List<String> requiredTrainsVar = searchingForRequiredTrains();
+//        Map<String, List<String>> desiredCarriageTypeTrainsVar = searchForTrainsWithDesiredCarriageType();
+//
+//        List<String> requiredTrainsWithDesiredCarriageType = new ArrayList<String>();
+//
+//        for (int i = 0; i < requiredTrainsVar.size(); i++) {
+//            //  System.out.println(requiredTrains.get(i)+"Текст-----requiredTrains");
+//
+//            for (int j = 0; j < desiredCarriageTypeTrainsVar.size(); j++) {
+//                //  System.out.println(desiredCarriageTypeTrains.get(j) + "Текст-----CarriageType");
+//
+//                if (requiredTrainsVar.get(i).equals(desiredCarriageTypeTrainsVar.get(j))) {
+//
+//                    requiredTrainsWithDesiredCarriageType.add(requiredTrainsVar.get(i));
+//                    // System.out.println(requiredTrainsWithDesiredCarriageType.get(i));
+//                }
+//            }
+//        }
+//        return requiredTrainsWithDesiredCarriageType;
+//    }
 
 
     private static void checkingPlacesAmount() {
-        List<String> suitableTrains = comparingRequiredTrainsANDDesiredCarriageTypeTrains();
+        //List<String> suitableTrains = comparingRequiredTrainsANDDesiredCarriageTypeTrains();
+        //List<String> preparedTypeOfCarriage = preparingDesiredTypesOfCarraige();
+        Map<String, List<String>> desiredCarriageTypeTrainsVar = searchForTrainsWithDesiredCarriageType();
 
-        for (int i = 0; i < suitableTrains.size(); i++) {
+        for (Map.Entry<String, List<String>> entry : desiredCarriageTypeTrainsVar.entrySet()) {
 
-            int plackartInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'" + suitableTrains.get(i) + "')]/../..//div[@title='Плацкарт' ]/b")).getText());
-            int kypeInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'" + suitableTrains.get(i) + "')]/../..//div[@title='Купе' ]/b")).getText());
-            if (plackartInt >= 2 || kypeInt >= 2) {
-                System.out.println("Plackart = " + plackartInt);
-                System.out.println("Kype = " + kypeInt);
-                screenshoting();
-                sendNotificationOnFacebook();
-            } else {
-                System.out.println("Amount of places not enough");
+            for (String carriageType : entry.getValue()) {
+
+                int plackartInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
+                        + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
+
+                // int kypeInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'" + train + "')]/../..//div[@title='"+ carriageType +"' ]/b")).getText());
+                if (plackartInt >= 2) {//|| kypeInt >= 2
+                    System.out.println(carriageType + " = " + plackartInt);
+                    // System.out.println("Kype = " + kypeInt);
+                    screenshoting();
+                    // sendNotificationOnFacebook();
+                } else {
+                    System.out.println("Amount of places not enough");
+                }
             }
         }
         driver.quit();
