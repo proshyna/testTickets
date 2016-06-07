@@ -152,34 +152,9 @@ public class testClass {
                     trainsCurrentTypes.put(trainWithAcceptableType.getText(), desiredTypes);
                 }
             }
-            // System.out.println(trainsCurrentTypes.get(i));
         }
         return trainsCurrentTypes;
     }
-
-
-//    private static List<String> comparingRequiredTrainsANDDesiredCarriageTypeTrains() {
-//        List<String> requiredTrainsVar = searchingForRequiredTrains();
-//        Map<String, List<String>> desiredCarriageTypeTrainsVar = searchForTrainsWithDesiredCarriageType();
-//
-//        List<String> requiredTrainsWithDesiredCarriageType = new ArrayList<String>();
-//
-//        for (int i = 0; i < requiredTrainsVar.size(); i++) {
-//            //  System.out.println(requiredTrains.get(i)+"Текст-----requiredTrains");
-//
-//            for (int j = 0; j < desiredCarriageTypeTrainsVar.size(); j++) {
-//                //  System.out.println(desiredCarriageTypeTrains.get(j) + "Текст-----CarriageType");
-//
-//                if (requiredTrainsVar.get(i).equals(desiredCarriageTypeTrainsVar.get(j))) {
-//
-//                    requiredTrainsWithDesiredCarriageType.add(requiredTrainsVar.get(i));
-//                    // System.out.println(requiredTrainsWithDesiredCarriageType.get(i));
-//                }
-//            }
-//        }
-//        return requiredTrainsWithDesiredCarriageType;
-//    }
-
 
     private static void checkingPlacesAmount() {
 
