@@ -34,7 +34,7 @@ public class testClass {
         searchingForRequiredTrains();
         preparingDesiredTypesOfCarraige();
         //comparingRequiredTrainsANDDesiredCarriageTypeTrains();
-        checkingPlacesAmount();
+       checkingPlacesAmount();
 
     }
 
@@ -66,7 +66,7 @@ public class testClass {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.linkText("10")).click();
+        driver.findElement(By.linkText("29")).click();
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.name("search")));
         } catch (Exception e) {
@@ -182,28 +182,24 @@ public class testClass {
 
 
     private static void checkingPlacesAmount() {
-        //List<String> suitableTrains = comparingRequiredTrainsANDDesiredCarriageTypeTrains();
-        //List<String> preparedTypeOfCarriage = preparingDesiredTypesOfCarraige();
+
         Map<String, List<String>> desiredCarriageTypeTrainsVar = searchForTrainsWithDesiredCarriageType();
 
-        for (Map.Entry<String, List<String>> entry : desiredCarriageTypeTrainsVar.entrySet()) {
+       loop: for (Map.Entry<String, List<String>> entry : desiredCarriageTypeTrainsVar.entrySet()) {
 
             for (String carriageType : entry.getValue()) {
 
-                int plackartInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
+                int placesInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
                         + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
-
-                // int kypeInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'" + train + "')]/../..//div[@title='"+ carriageType +"' ]/b")).getText());
-                if (plackartInt >= 2) {//|| kypeInt >= 2
-                    System.out.println(carriageType + " = " + plackartInt);
-                    // System.out.println("Kype = " + kypeInt);
+                if (placesInt >= 2) {
+                    System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
                     screenshoting();
-                    // sendNotificationOnFacebook();
-                } else {
-                    System.out.println("Amount of places not enough");
+                    sendNotificationOnFacebook();
+                    break loop;
                 }
             }
         }
+
         driver.quit();
     }
 
