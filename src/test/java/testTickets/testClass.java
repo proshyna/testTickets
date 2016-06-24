@@ -1,43 +1,40 @@
 package testTickets;
 
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import static java.awt.SystemColor.text;
-import static jdk.internal.org.objectweb.asm.commons.GeneratorAdapter.OR;
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class testClass {
+//  public static  WebDriver driver = new FirefoxDriver();
 
+    private static ChromeDriverService service;
+    static WebDriver driver;
 
-    private static WebDriver driver = new FirefoxDriver();
 
     @Test
-    public static void main(String[] args) {
+    public static void  main(String[] args) throws IOException {
+        System.setProperty("webdriver.chrome.driver", "D:\\SeleniumTest\\chromedriver_win32\\chromedriver.exe");
+        driver= new ChromeDriver();
 
         filters();
-        getCurrentPeriodTrains();
-        searchingForRequiredTrains();
-        preparingDesiredTypesOfCarraige();
-        //comparingRequiredTrainsANDDesiredCarriageTypeTrains();
-       checkingPlacesAmount();
-
+      //  getCurrentPeriodTrains();
+      //  searchingForRequiredTrains();
+      //  preparingDesiredTypesOfCarraige();
+      // checkingPlacesAmount();
     }
-
 
     private static void filters() {  // Searching for trains with defined filters
 
@@ -79,7 +76,6 @@ public class testClass {
             System.out.println("Somthing wrong :(");
         }
     }
-
 
     private static List<String> getCurrentPeriodTrains() { // Getting WebElements and writing them to ArrayList
         List<String> currentTrains = new ArrayList<String>();
@@ -231,7 +227,6 @@ public class testClass {
    /* @AfterTest
     public void afterTest() {
         driver.quit();*/
-
 }
 
 
