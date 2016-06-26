@@ -2,19 +2,26 @@ package testTickets;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class testClass {
@@ -25,15 +32,15 @@ public class testClass {
 
 
     @Test
-    public static void  main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         System.setProperty("webdriver.chrome.driver", "D:\\SeleniumTest\\chromedriver_win32\\chromedriver.exe");
-        driver= new ChromeDriver();
+        driver = new ChromeDriver();
 
         filters();
-      //  getCurrentPeriodTrains();
-      //  searchingForRequiredTrains();
-      //  preparingDesiredTypesOfCarraige();
-      // checkingPlacesAmount();
+        getCurrentPeriodTrains();
+        searchingForRequiredTrains();
+        preparingDesiredTypesOfCarraige();
+        checkingPlacesAmount();
     }
 
     private static void filters() {  // Searching for trains with defined filters
@@ -63,7 +70,16 @@ public class testClass {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.linkText("29")).click();
+        driver.findElement(By.xpath("//td[@data-month='6']//a[text()='1']")).click();
+        //driver.findElement(By.linkText("7")).click();
+
+        try {
+            myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.xpath("//td[@data-month='6']//a[text()='1']")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong :(");
+        }
+
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.name("search")));
         } catch (Exception e) {
@@ -135,7 +151,7 @@ public class testClass {
                     + desiredType + "']/../..//td[@class='num']/a"));
 
             for (WebElement trainWithAcceptableType : checkingCarraigeTypes) {//comparing required trains and "all trains with desired carriage Types"
-                if(!requiredTrainsVar.contains(trainWithAcceptableType.getText())){
+                if (!requiredTrainsVar.contains(trainWithAcceptableType.getText())) {
                     continue;
                 }
 
@@ -156,7 +172,8 @@ public class testClass {
 
         Map<String, List<String>> desiredCarriageTypeTrainsVar = searchForTrainsWithDesiredCarriageType();
 
-       loop: for (Map.Entry<String, List<String>> entry : desiredCarriageTypeTrainsVar.entrySet()) {
+        loop:
+        for (Map.Entry<String, List<String>> entry : desiredCarriageTypeTrainsVar.entrySet()) {
 
             for (String carriageType : entry.getValue()) {
 
@@ -164,7 +181,9 @@ public class testClass {
                         + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
                 if (placesInt >= 2) {
                     System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
-                    screenshoting();
+
+                    testClass obj = new testClass();
+                   // obj.screenshoting();
                     sendNotificationOnFacebook();
                     break loop;
                 }
@@ -176,7 +195,16 @@ public class testClass {
 
 
     private static void sendNotificationOnFacebook() {
-        WebDriver driver = new FirefoxDriver();
+        // WebDriver driver = new FirefoxDriver();
+        System.setProperty("webdriver.chrome.driver", "D:\\SeleniumTest\\chromedriver_win32\\chromedriver.exe");
+
+        Map<String, Object> prefs = new HashMap<String, Object>();
+        prefs.put("profile.default_content_setting_values.notifications", 2);
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("prefs", prefs);
+
+        driver = new ChromeDriver(options);
+
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
         driver.navigate().to("https://www.facebook.com/");
         try {
@@ -187,12 +215,15 @@ public class testClass {
         driver.findElement(By.id("email")).sendKeys("chizdrel@ya.ru");
         driver.findElement(By.id("pass")).sendKeys("Greenice123@");
         driver.findElement(By.id("u_0_m")).click();
+
+
         try {
-            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class=\"linkWrap noCount\"]//span")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Сообщения')]")));
         } catch (Exception e) {
             System.out.println("Somthing wrong2 :(");
         }
-        driver.findElement(By.xpath("//a[@class=\"_5afe sortableItem\"]//div[@class=\"linkWrap noCount\"]//span")).click();
+
+        driver.findElement(By.xpath("//span[contains(text(),'Сообщения')]")).click();
 
         try {
             myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@value=\"1\"]")));
@@ -202,6 +233,9 @@ public class testClass {
 
         driver.findElement(By.xpath("//button[@value='1']")).click();
 
+        driver.findElement(By.xpath("//input[@class='inputtext'][@placeholder='Поиск']")).sendKeys("Masha");
+        driver.findElement(By.xpath("//input[@class='inputtext'][@placeholder='Поиск']")).sendKeys(Keys.ENTER);
+
         try {
             myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class=\"_1rt\"]//textarea")));
         } catch (Exception e) {
@@ -209,25 +243,47 @@ public class testClass {
         }
 
         driver.findElement(By.xpath("//div[@class=\"_1rt\"]//textarea")).sendKeys("ЕСТЬ БИЛЕТИКИ!");
-        driver.findElement(By.id("u_jsonp_2_6")).click();
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='Ответить']")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong9 :(");
+        }
+        driver.findElement(By.xpath("//input[@value='Ответить']")).click();
         driver.quit();
     }
 
 
-    private static void screenshoting() { //Capture entire page screenshot and then store it to destination drive
-        try {
+    /*private static void screenshoting() { //Capture entire page screenshot and then store it to destination drive
+        /*try {
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenshot, new File("C:\\Users\\Masha\\Dropbox\\screenshotUKRZALIZNUCYA.jpg"));
             System.out.print("Screenshot is captured and stored in your C:\\Users\\Masha\\Dropbox\\");
         } catch (Exception e) {
             System.out.print("Somthing wrong5 :(");
         }
-    }
+        try{
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+        BufferedImage capture = new Robot().createScreenCapture(screenRect);
+        ImageIO.write(capture, "bmp", new File(args[0]));}
+        catch (Exception e) {
+            System.out.print("Somthing wrong5 :(");
+        }*/
 
-   /* @AfterTest
+
+  /*  public void screenshoting(String fileName) throws Exception {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle screenRectangle = new Rectangle(screenSize);
+        Robot robot = new Robot();
+        BufferedImage image = robot.createScreenCapture(screenRectangle);
+        ImageIO.write(image, "png", new File(fileName));
+    }*/
+
+
+    /*@AfterTest
     public void afterTest() {
-        driver.quit();*/
+        driver.quit();
+
+
+    }*/
 }
-
-
 
