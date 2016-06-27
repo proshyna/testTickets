@@ -32,7 +32,7 @@ public class testClass {
 
 
     @Test
-    public static void testTicket() throws IOException {
+    public void testTicket() throws IOException {
         System.setProperty("webdriver.chrome.driver", "D:\\SeleniumTest\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
 
