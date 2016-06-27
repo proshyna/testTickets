@@ -64,7 +64,7 @@ public class TicketsTest {
 
         try {
             myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.xpath("//td[@data-month='6']//a[text()='22']")));
+                    By.xpath("//td[@data-month='6']//a[text()='1']")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
