@@ -59,7 +59,7 @@ public class TicketsTest {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.xpath("//td[@data-month='6']//a[text()='22']")).click();
+        driver.findElement(By.xpath("//td[@data-month='6']//a[text()='1']")).click();
         //driver.findElement(By.linkText("7")).click();
 
         try {
