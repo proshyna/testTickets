@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="testTickets" />
         <module name="ukrzaliznucya" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="testTickets" target="1.5" />
       <module name="ukrzaliznucya" target="1.5" />
     </bytecodeTargetLevel>
   </component>
