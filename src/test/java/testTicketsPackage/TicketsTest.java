@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Tickets {
+public class TicketsTest {
 //  public static  WebDriver driver = new FirefoxDriver();
 
     //private static ChromeDriverService service;
@@ -171,7 +171,7 @@ public class Tickets {
                 if (placesInt >= 2) {
                     System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
 
-                    Tickets obj = new Tickets();
+                    TicketsTest obj = new TicketsTest();
                    // obj.screenshoting();
                     sendNotificationOnFacebook();
                     break loop;
