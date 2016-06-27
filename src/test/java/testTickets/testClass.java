@@ -233,7 +233,7 @@ public class testClass {
 
         driver.findElement(By.xpath("//button[@value='1']")).click();
 
-        driver.findElement(By.xpath("")).sendKeys("Masha");
+        driver.findElement(By.xpath("//input[@class='inputtext'][@placeholder='Поиск']")).sendKeys("Masha");
         driver.findElement(By.xpath("//input[@class='inputtext'][@placeholder='Поиск']")).sendKeys(Keys.ENTER);
 
         try {
