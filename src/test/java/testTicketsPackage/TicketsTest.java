@@ -59,12 +59,12 @@ public class TicketsTest {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.xpath("//td[@data-month='6']//a[text()='1']")).click();
+        driver.findElement(By.xpath("//td[@data-month='8']//a[text()='16']")).click();
         //driver.findElement(By.linkText("7")).click();
 
         try {
             myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.xpath("//td[@data-month='6']//a[text()='1']")));
+                    By.xpath("//td[@data-month='8']//a[text()='16']")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
@@ -191,7 +191,7 @@ public class TicketsTest {
         prefs.put("profile.default_content_setting_values.notifications", 2);
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
-
+        options.addArguments("--disable-extensions");
         driver = new ChromeDriver(options);
 
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
