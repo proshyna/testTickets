@@ -168,7 +168,7 @@ public class TicketsTest {
 
                 int placesInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
                         + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
-                if (placesInt >= 2) {
+                if (placesInt > 1) {
                     System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
 
                     TicketsTest obj = new TicketsTest();
