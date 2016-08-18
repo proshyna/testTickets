@@ -101,6 +101,7 @@ public class TicketsTest {
         requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
         requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
         requeredTrains.add("143 К");
+        requeredTrains.add("111 О");
 
         List<String> listOfPossibleTrains = new ArrayList<String>();
         for (int i = 0; i < requeredTrains.size(); i++) {
@@ -168,7 +169,7 @@ public class TicketsTest {
 
                 int placesInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
                         + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
-                if (placesInt >= 2) {
+                if (placesInt >= 1) {
                     System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
 
                     TicketsTest obj = new TicketsTest();
@@ -197,13 +198,13 @@ public class TicketsTest {
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
         driver.navigate().to("https://www.facebook.com/");
         try {
-            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.id("u_0_j")));
+            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.id("u_0_l")));
         } catch (Exception e) {
             System.out.println("Somthing wrong1 :(");
         }
         driver.findElement(By.id("email")).sendKeys("chizdrel@ya.ru");
         driver.findElement(By.id("pass")).sendKeys("Greenice123@");
-        driver.findElement(By.id("u_0_m")).click();
+        driver.findElement(By.id("u_0_l")).click();
 
 
         try {
