@@ -134,7 +134,7 @@ public class TicketsTest {
         List<String> trainsDesiredTypes = new ArrayList<String>();
         trainsDesiredTypes.add("Купе");
         trainsDesiredTypes.add("Плацкарт");
-        trainsDesiredTypes.add("Люкс");
+
 
 
         for (int t = 0; t < trainsDesiredTypes.size(); t++) {
@@ -183,7 +183,7 @@ public class TicketsTest {
 
                 int placesInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
                         + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
-                if (placesInt >= 1) {
+                if (placesInt >= 2) {
 
                     System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
 
