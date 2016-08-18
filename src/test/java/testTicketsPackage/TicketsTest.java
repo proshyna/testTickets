@@ -5,6 +5,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterGroups;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class TicketsTest {
     @Test
     public void testTicket(){
         System.setProperty("webdriver.chrome.driver", "D:\\SeleniumTest\\chromedriver_win32\\chromedriver.exe");
-        driver = new ChromeDriver();
+       // driver = new ChromeDriver();
 
         filters();
         getCurrentPeriodTrains();
@@ -33,7 +35,7 @@ public class TicketsTest {
     }
 
     private static void filters() {  // Searching for trains with defined filters
-
+        closingMassages();
         WebDriverWait myDynamicElement = new WebDriverWait(driver, 30);
         driver.navigate().to("http://booking.uz.gov.ua/");
         try {
@@ -41,6 +43,7 @@ public class TicketsTest {
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
+
         driver.findElement(By.xpath("//ul[@id=\"langs\"]//li[1]//b")).click();
         driver.findElement(By.name("station_from")).sendKeys("Київ");
         try {
@@ -80,6 +83,14 @@ public class TicketsTest {
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
+    }
+
+
+    private static void closingMassages(){
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-extensions");
+        driver = new ChromeDriver(options);
     }
 
     private static List<String> getCurrentPeriodTrains() { // Getting WebElements and writing them to ArrayList
@@ -123,6 +134,9 @@ public class TicketsTest {
         List<String> trainsDesiredTypes = new ArrayList<String>();
         trainsDesiredTypes.add("Купе");
         trainsDesiredTypes.add("Плацкарт");
+        trainsDesiredTypes.add("Люкс");
+
+
         for (int t = 0; t < trainsDesiredTypes.size(); t++) {
             //  System.out.println(trainsDesiredTypes.get(t1));
         }
@@ -170,22 +184,32 @@ public class TicketsTest {
                 int placesInt = Integer.parseInt(driver.findElement(By.xpath("//td[@class='num']/a[contains(text(),'"
                         + entry.getKey() + "')]/../..//div[@title='" + carriageType + "' ]/b")).getText());
                 if (placesInt >= 1) {
+
                     System.out.println(entry.getKey() + " ----> " + carriageType + " = " + placesInt);
 
-                    TicketsTest obj = new TicketsTest();
+                    //TicketsTest obj = new TicketsTest();
                    // obj.screenshoting();
+                    driver.quit();
                     sendNotificationOnFacebook();
                     break loop;
+
+
+
                 }
             }
         }
 
-        driver.quit();
+
     }
+
+
+
+
 
 
     private static void sendNotificationOnFacebook() {
         // WebDriver driver = new FirefoxDriver();
+
         System.setProperty("webdriver.chrome.driver", "D:\\SeleniumTest\\chromedriver_win32\\chromedriver.exe");
 
         Map<String, Object> prefs = new HashMap<String, Object>();
@@ -239,7 +263,7 @@ public class TicketsTest {
             System.out.println("Somthing wrong9 :(");
         }
         driver.findElement(By.xpath("//input[@value='Ответить']")).click();
-        driver.quit();
+        //driver.quit();
     }
 
 
@@ -269,11 +293,11 @@ public class TicketsTest {
     }*/
 
 
-    /*@AfterTest
+   @AfterTest
     public void afterTest() {
         driver.quit();
 
 
-    }*/
+    }
 }
 
