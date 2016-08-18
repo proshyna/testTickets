@@ -112,7 +112,7 @@ public class TicketsTest {
         requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
         requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
         requeredTrains.add("143 К");
-        requeredTrains.add("111 О");
+
 
         List<String> listOfPossibleTrains = new ArrayList<String>();
         for (int i = 0; i < requeredTrains.size(); i++) {
