@@ -193,19 +193,10 @@ public class TicketsTest {
                     sendNotificationOnFacebook();
                     break loop;
 
-
-
                 }
             }
         }
-
-
     }
-
-
-
-
-
 
     private static void sendNotificationOnFacebook() {
         // WebDriver driver = new FirefoxDriver();
@@ -263,9 +254,14 @@ public class TicketsTest {
             System.out.println("Somthing wrong9 :(");
         }
         driver.findElement(By.xpath("//input[@value='Ответить']")).click();
-        //driver.quit();
-    }
 
+    }
+    @AfterTest
+    public void afterTest() {
+        driver.quit();
+
+
+    }
 
     /*private static void screenshoting() { //Capture entire page screenshot and then store it to destination drive
         /*try {
@@ -293,11 +289,6 @@ public class TicketsTest {
     }*/
 
 
-   @AfterTest
-    public void afterTest() {
-        driver.quit();
 
-
-    }
 }
 
