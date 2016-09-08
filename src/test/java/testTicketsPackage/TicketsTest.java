@@ -132,7 +132,7 @@ public class TicketsTest {
 
     private static List<String> preparingDesiredTypesOfCarraige() {
         List<String> trainsDesiredTypes = new ArrayList<String>();
-        trainsDesiredTypes.add("Купе");
+        //trainsDesiredTypes.add("Купе");
         trainsDesiredTypes.add("Плацкарт");
 
 
