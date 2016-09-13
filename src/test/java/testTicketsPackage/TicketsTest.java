@@ -47,13 +47,13 @@ public class TicketsTest {
         driver.findElement(By.xpath("//ul[@id=\"langs\"]//li[1]//b")).click();
         driver.findElement(By.name("station_from")).sendKeys("Київ");
         try {
-            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Київ']")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='ТернопільКиїв']")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
         driver.findElement(By.name("station_from")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_from")).sendKeys(Keys.ENTER);
-        driver.findElement(By.name("station_till")).sendKeys("Тернопіль");
+        driver.findElement(By.name("station_till")).sendKeys("Київ");
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Тернопіль']")));
         } catch (Exception e) {
@@ -62,12 +62,12 @@ public class TicketsTest {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.xpath("//td[@data-month='8']//a[text()='16']")).click();
+        driver.findElement(By.xpath("//td[@data-month='8']//a[text()='19']")).click();
         //driver.findElement(By.linkText("7")).click();
 
         try {
             myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.xpath("//td[@data-month='8']//a[text()='16']")));
+                    By.xpath("//td[@data-month='8']//a[text()='19']")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
@@ -109,9 +109,11 @@ public class TicketsTest {
         List<String> arrayOfWebElements = getCurrentPeriodTrains();
         //ArrayList creation
         List<String> requeredTrains = new ArrayList<String>();
-        requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
-        requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
-        requeredTrains.add("143 К");
+     //   requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
+      //  requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
+     //   requeredTrains.add("143 К");
+        requeredTrains.add("081 Л");
+        requeredTrains.add("050 Л");
 
 
         List<String> listOfPossibleTrains = new ArrayList<String>();
@@ -132,7 +134,7 @@ public class TicketsTest {
 
     private static List<String> preparingDesiredTypesOfCarraige() {
         List<String> trainsDesiredTypes = new ArrayList<String>();
-        //trainsDesiredTypes.add("Купе");
+        trainsDesiredTypes.add("Купе");
         trainsDesiredTypes.add("Плацкарт");
 
 
