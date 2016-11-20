@@ -260,7 +260,9 @@ public class TicketsTest {
     }
     @AfterTest
     public void afterTest() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
 
 
     }
