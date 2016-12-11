@@ -62,12 +62,12 @@ public class TicketsTest {
         driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.xpath("//td[@data-month='10']//a[text()='25']")).click();
+        driver.findElement(By.xpath("//td[@data-month='0']//a[text()='4']")).click();
         //driver.findElement(By.linkText("7")).click();
 
         try {
             myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.xpath("//td[@data-month='10']//a[text()='25']")));
+                    By.xpath("//td[@data-month='0']//a[text()='4']")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
