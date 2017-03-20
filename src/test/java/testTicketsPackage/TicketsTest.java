@@ -32,6 +32,7 @@ public class TicketsTest {
         searchingForRequiredTrains();
         preparingDesiredTypesOfCarraige();
         checkingPlacesAmount();
+
     }
 
     private static void filters() {  // Searching for trains with defined filters
@@ -47,27 +48,27 @@ public class TicketsTest {
         driver.findElement(By.xpath("//ul[@id=\"langs\"]//li[1]//b")).click();
         driver.findElement(By.name("station_from")).sendKeys("Київ");
         try {
-            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Київ']")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@id=\"ui-id-1\"]/li[contains(text(),'Київ')][1]")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong :(");
+            System.out.println("1 Somthing wrong :(");
         }
-        driver.findElement(By.name("station_from")).sendKeys(Keys.DOWN);
+      //  driver.findElement(By.name("station_from")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_from")).sendKeys(Keys.ENTER);
         driver.findElement(By.name("station_till")).sendKeys("Тернопіль");
         try {
-            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Тернопіль']")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@id=\"ui-id-2\"]/li[contains(text(),\"Тернопіль\")][1]")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong :(");
+            System.out.println("2 Somthing wrong :(");
         }
-        driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
+      //  driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.xpath("//td[@data-month='0']//a[text()='4']")).click();
-        //driver.findElement(By.linkText("7")).click();
+        driver.findElement(By.xpath("//td[@data-month='3']//a[text()='24']")).click();
+
 
         try {
             myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.xpath("//td[@data-month='0']//a[text()='4']")));
+                    By.xpath("//td[@data-month='3']//a[text()='24']")));
         } catch (Exception e) {
             System.out.println("Somthing wrong :(");
         }
@@ -111,9 +112,13 @@ public class TicketsTest {
         List<String> requeredTrains = new ArrayList<String>();
      //   requeredTrains.add("049 К"); //Putting an Item In arraylist at Index = 0.
       //  requeredTrains.add("081 К"); //Putting an Item In arraylist at Index = 1.
-        requeredTrains.add("049 К");
+       requeredTrains.add("049 К");
         requeredTrains.add("143 К");
         requeredTrains.add("081 К");
+       //requeredTrains.add("357 К");
+
+
+
 
 
         List<String> listOfPossibleTrains = new ArrayList<String>();
@@ -136,6 +141,8 @@ public class TicketsTest {
         List<String> trainsDesiredTypes = new ArrayList<String>();
         trainsDesiredTypes.add("Купе");
         trainsDesiredTypes.add("Плацкарт");
+
+
 
 
 
@@ -217,45 +224,57 @@ public class TicketsTest {
         try {
             myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.id("u_0_l")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong1 :(");
+            System.out.println("Somthing wrong1f :(");
         }
         driver.findElement(By.id("email")).sendKeys("chizdrel@ya.ru");
         driver.findElement(By.id("pass")).sendKeys("Greenice123@");
-        driver.findElement(By.id("u_0_l")).click();
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[@id='loginbutton']/input")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong1.1f :(");
+        }
+        driver.findElement(By.xpath("//label[@id='loginbutton']/input")).click();
 
 
         try {
-            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Сообщения')]")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class=\"linkWrap noCount\"]//span[contains(text(),'Messenger')]")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong2 :(");
+            System.out.println("Somthing wrong2f :(");
+    }
+
+        driver.findElement(By.xpath("//div[@class=\"linkWrap noCount\"]//span[contains(text(),'Messenger')]")).click();
+
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title=\"Новое сообщение\"]")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong3f :(");
         }
 
-        driver.findElement(By.xpath("//span[contains(text(),'Сообщения')]")).click();
+        driver.findElement(By.xpath("//a[@title=\"Новое сообщение\"]")).click();
 
-        try {
-            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@value=\"1\"]")));
+        driver.findElement(By.xpath("//div[@class=\"_2y8y _5l-3\"]/div//input[@class=\"_58al\"]")).sendKeys("Masha Proshyna");
+        driver.findElement(By.xpath("//em[@data-intl-translation='Контакты']/../..//div[@class='_4ld-']")).click();
+                //sendKeys(Keys.ENTER);
+
+       /* try {
+            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class=\"_1mf _1mj\"]//span")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong3 :(");
+            System.out.println("Somthing wrong4f :(");
         }
 
-        driver.findElement(By.xpath("//button[@value='1']")).click();
-
-        driver.findElement(By.xpath("//input[@class='inputtext'][@placeholder='Поиск']")).sendKeys("Masha");
-        driver.findElement(By.xpath("//input[@class='inputtext'][@placeholder='Поиск']")).sendKeys(Keys.ENTER);
-
+        driver.findElement(By.xpath("//div[@class=\"_1mf _1mj\"]/span/span[@data-text=\"true\"]")).sendKeys("ЕСТЬ БИЛЕТИКИ!");
         try {
-            myDynamicElement.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class=\"_1rt\"]//textarea")));
-        } catch (Exception e) {
-            System.out.println("Somthing wrong4 :(");
-        }
-
-        driver.findElement(By.xpath("//div[@class=\"_1rt\"]//textarea")).sendKeys("ЕСТЬ БИЛЕТИКИ!");
-        try {
-            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='Ответить']")));
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//em[@class=\"_4qba\"][contains(text(),\"Отправить\")]")));
         } catch (Exception e) {
             System.out.println("Somthing wrong9 :(");
         }
-        driver.findElement(By.xpath("//input[@value='Ответить']")).click();
+        driver.findElement(By.xpath("//em[@class=\"_4qba\"][contains(text(),\"Отправить\")]")).click();*/
+        try {
+            myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath(".//*[@id='cch_f34d6ffbc75cf3a']/div/div[1]/div/ul/a")));
+        } catch (Exception e) {
+            System.out.println("Somthing wrong4f :(");
+        }
+        driver.findElement(By.xpath(".//*[@id='cch_f34d6ffbc75cf3a']/div/div[1]/div/ul/a")).click();
 
     }
     @AfterTest
