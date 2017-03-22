@@ -5,14 +5,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterGroups;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.mail.MessagingException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 
 
 public class TicketsTest {
@@ -42,7 +41,7 @@ public class TicketsTest {
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@id=\"langs\"]//li[1]//b")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong :(");
+            System.out.println("Somthing wrong :( " + e.toString());
         }
 
         driver.findElement(By.xpath("//ul[@id=\"langs\"]//li[1]//b")).click();
@@ -50,7 +49,7 @@ public class TicketsTest {
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@id=\"ui-id-1\"]/li[contains(text(),'Київ')][1]")));
         } catch (Exception e) {
-            System.out.println("1 Somthing wrong :(");
+            System.out.println("Somthing wrong :( " + e.toString());
         }
       //  driver.findElement(By.name("station_from")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_from")).sendKeys(Keys.ENTER);
@@ -58,31 +57,31 @@ public class TicketsTest {
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@id=\"ui-id-2\"]/li[contains(text(),\"Тернопіль\")][1]")));
         } catch (Exception e) {
-            System.out.println("2 Somthing wrong :(");
+            System.out.println("Somthing wrong :( " + e.toString());
         }
       //  driver.findElement(By.name("station_till")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("station_till")).sendKeys(Keys.ENTER);
         driver.findElement(By.id("date_dep")).click();
-        driver.findElement(By.xpath("//td[@data-month='3']//a[text()='24']")).click();
+        driver.findElement(By.xpath("//td[@data-month='2']//a[text()='24']")).click();
 
 
         try {
             myDynamicElement.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.xpath("//td[@data-month='3']//a[text()='24']")));
+                    By.xpath("//td[@data-month='2']//a[text()='24']")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong :(");
+            System.out.println("Somthing wrong :( " + e.toString());
         }
 
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.name("search")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong :(");
+            System.out.println("Somthing wrong :( " + e.toString());
         }
         driver.findElement(By.name("search")).click();
         try {
             myDynamicElement.until(ExpectedConditions.elementToBeClickable(By.xpath("//table[@id='ts_res_tbl']//td[@class='num']//a")));
         } catch (Exception e) {
-            System.out.println("Somthing wrong :(");
+            System.out.println("Somthing wrong :( " + e.toString());
         }
     }
 
@@ -199,12 +198,41 @@ public class TicketsTest {
                     //TicketsTest obj = new TicketsTest();
                    // obj.screenshoting();
                     driver.quit();
-                    sendNotificationOnFacebook();
+//                    sendNotificationOnFacebook();
+                    sendNotificationOnEmail();
                     break loop;
 
                 }
             }
         }
+    }
+
+    public static void sendNotificationOnEmail() {
+        Properties properties = getProperties();
+
+        String username = properties.getProperty("email.username");
+        String password = properties.getProperty("email.password");
+        String recipientEmail = properties.getProperty("email.recipientEmail");
+        String messagetitle = properties.getProperty("email.messagetitle");
+        String message = properties.getProperty("email.message");
+        try {
+            GoogleMail.send(username, password, recipientEmail, messagetitle, message);
+            System.out.println("Message sent on GMail");
+        } catch (MessagingException e) {
+            System.out.println("Can't send email. " + e.toString());
+        }
+    }
+
+    private static Properties getProperties() {
+        Properties properties = new Properties();
+        FileInputStream in;
+        try {
+            in = new FileInputStream("config.properties");
+            properties.load(in);
+        } catch (IOException e) {
+            System.out.println("Can't read properties " + e.toString());
+        }
+        return properties;
     }
 
     private static void sendNotificationOnFacebook() {
